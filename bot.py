@@ -3,7 +3,7 @@
 from random import uniform
 from threading import Thread
 from time import sleep, strftime
-
+import traceback
 from requests import get, post
 
 from config import (
@@ -87,8 +87,8 @@ def get_bonuses():
             get_bonus()
             print("Бонус получен")
             sleep(60 + uniform(0, 3.34))
-        except Exception as e:
-            print(e.args)
+        except Exception:
+            print(traceback.format_exc())
             sleep(3.34)
 
 
@@ -107,8 +107,8 @@ def sell_bad_slaves():
                         sleep(uniform(min_delay, max_delay))
             else:
                 sleep(3.34)
-        except Exception as e:
-            print(e.args)
+        except Exception:
+            print(traceback.format_exc())
             sleep(3.34)
 
 
@@ -128,22 +128,22 @@ def buy_top_users_slaves():
                                     and slave["price"] >= min_price
                                 ):
                                     get_bonus()
-                                    buy_slave_info = get_buy_slave(
-                                        slave["vk_user_id"],
-                                    )
-                                    if "user" in buy_slave_info.keys():
-                                        if check_was_in_app == 0:
-                                            was_in_app = True
-                                        else:
-                                            was_in_app = slave["was_in_app"]
-                                        if was_in_app:
+                                    if check_was_in_app == 0:
+                                        was_in_app = True
+                                    else:
+                                        was_in_app = slave["was_in_app"]
+                                    if was_in_app == True:
+                                        buy_slave_info = get_buy_slave(
+                                            slave["vk_user_id"],
+                                        )
+                                        if "user" in buy_slave_info.keys():
                                             profile = buy_slave_info["user"]
                                             print(
                                                 f"""[{strftime('%H:%M:%S')}]
-Купил id{slave['vk_user_id']} за {slave['price']} у id{top_user['vk_user_id']}
-Баланс: {'{:,}'.format(profile['balance']['coins'])}
-Рабов: {profile['slaves_count']}
-Доход в минуту: {profile['slaves_profit_per_min']}""",
+    Купил id{slave['vk_user_id']} за {slave['price']} у id{top_user['vk_user_id']}
+    Баланс: {'{:,}'.format(profile['balance']['coins'])}
+    Рабов: {profile['slaves_count']}
+    Доход в минуту: {profile['slaves_profit_per_min']}""",
                                             )
                                             if set_fetters == 1:
                                                 fetter = get_set_fetter(
@@ -164,8 +164,8 @@ def buy_top_users_slaves():
                         sleep(3.34)
             else:
                 sleep(3.34)
-        except Exception as e:
-            print(e.args)
+        except Exception:
+            print(traceback.format_exc())
             sleep(3.34)
 
 
@@ -183,22 +183,22 @@ def buy_slaves_from_ids():
                                 and slave["price"] >= min_price
                             ):
                                 get_bonus()
-                                buy_slave_info = get_buy_slave(
-                                    slave["vk_user_id"],
-                                )
-                                if "user" in buy_slave_info.keys():
-                                    if check_was_in_app == 0:
-                                        was_in_app = True
-                                    else:
-                                        was_in_app = slave["was_in_app"]
-                                    if was_in_app:
+                                if check_was_in_app == 0:
+                                    was_in_app = True
+                                else:
+                                    was_in_app = slave["was_in_app"]
+                                if was_in_app:
+                                    buy_slave_info = get_buy_slave(
+                                        slave["vk_user_id"],
+                                    )
+                                    if "user" in buy_slave_info.keys():
                                         profile = buy_slave_info["user"]
                                         print(
                                             f"""[{strftime('%H:%M:%S')}]
-Купил id{slave['vk_user_id']} за {slave['price']} у id{id}
-Баланс: {'{:,}'.format(profile['balance']['coins'])}
-Рабов: {profile['slaves_count']}
-Доход в минуту: {profile['slaves_profit_per_min']}""",
+    Купил id{slave['vk_user_id']} за {slave['price']} у id{id}
+    Баланс: {'{:,}'.format(profile['balance']['coins'])}
+    Рабов: {profile['slaves_count']}
+    Доход в минуту: {profile['slaves_profit_per_min']}""",
                                         )
                                         if set_fetters == 1:
                                             fetter = get_set_fetter(
@@ -213,8 +213,8 @@ def buy_slaves_from_ids():
                                     sleep(3.34)
                 else:
                     sleep(3.34)
-        except Exception as e:
-            print(e.args)
+        except Exception:
+            print(traceback.format_exc())
             sleep(3.34)
 
 
@@ -238,8 +238,8 @@ def buy_fetters():
                     sleep(3.34)
             else:
                 sleep(3.34)
-        except Exception as e:
-            print(e.args)
+        except Exception:
+            print(traceback.format_exc())
             sleep(3.34)
 
 
